@@ -2,12 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-
-interface SearchOptions {
-  page?: string;
-  include_adult?: string;
-  language?: string;
-}
+import { SearchOptions, SearchResults } from '../../types/types';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +13,7 @@ export class MovieApiService {
 
   constructor(private http: HttpClient) {}
 
-  searchMovie<T>(query: string): Observable<T> {
+  searchMovie(query: string): Observable<SearchResults> {
     const endpoint = this.createEndpoint(query);
     return this.get(endpoint);
   }
