@@ -7,4 +7,14 @@
   </div>
 </form>
 
-<p>search results go here</p>
+<!-- Results -->
+<div class="row pt-3">
+  <div class="col">Overview</div>
+  <div class="col">Release Date</div>
+  <div class="col">Title</div>
+</div>
+<div *ngFor="let item of searchResults" class="row pt-3">
+  <div class="col">{{ item.overview }}</div>
+  <div class="col">{{ item.result_date }}</div>
+  <div class="col">{{ item.title }}</div>
+</div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieApiService } from '../../services/movie_api/movie_api.service';
-import { SearchResults } from '../../types/types';
+import { SearchResult } from '../../types/types';
+import { StorageService } from './../../services/storage.service';
 
 @Component({
   selector: 'app-search',
@@ -9,15 +10,26 @@ import { SearchResults } from '../../types/types';
 })
 export class SearchComponent implements OnInit {
   public query = '';
-  public searchResults: SearchResults = {};
+  public searchResults: SearchResult[] = [];
 
-  constructor(private movieApiService: MovieApiService) {}
+  private oldQuery: string;
 
-  ngOnInit(): void {}
+  constructor(private movieApiService: MovieApiService, private storageService: StorageService) { }
+
+  ngOnInit(): void {
+
+  }
 
   getSearchResults(): void {
-    this.movieApiService.searchMovie(this.query).subscribe((searchResults) => {
-      this.searchResults = searchResults;
-    });
+    if (this.oldQuery === undefined || this.query.toLowerCase() !== this.oldQuery.toLowerCase()) {
+      this.movieApiService.searchMovie(this.query).subscribe((searchResults) => {
+        this.oldQuery = this.query;
+        this.storageService.persistMovies(searchResults.results);
+        this.searchResults = { ...searchResults.results };
+      });
+    } else {
+      const results = this.storageService.getMovies();
+      this.searchResults = { ...results };
+    }
   }
 }
