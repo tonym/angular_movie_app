@@ -5,10 +5,17 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SearchComponent } from './components/search/search.component';
+import { ButtonModule } from '@opensesame/gemini';
 
 @NgModule({
   declarations: [AppComponent, SearchComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ButtonModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
